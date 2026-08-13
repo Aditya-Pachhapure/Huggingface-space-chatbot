@@ -1,4 +1,5 @@
 import gradio as gr
+import spaces
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_openai import ChatOpenAI
@@ -10,6 +11,7 @@ prompt = ChatPromptTemplate.from_messages([
 ])
 
 
+@spaces.GPU
 def generate_response(query, api_key, llm, temperature, max_tokens):
     if not query:
         return "Please enter a question."
@@ -50,6 +52,7 @@ with gr.Blocks(title="QnA Chatbot") as demo:
     with gr.Row():
 
         with gr.Column(scale=2):
+
             query = gr.Textbox(
                 label="Your Question",
                 placeholder="What would you like to ask?",
@@ -67,6 +70,7 @@ with gr.Blocks(title="QnA Chatbot") as demo:
             )
 
         with gr.Column(scale=1):
+
             gr.Markdown("### ⚙️ Settings")
 
             api_key = gr.Textbox(
