@@ -1,3 +1,4 @@
 gradio
+spaces
 langchain-core
 langchain-openai
