@@ -6,9 +6,6 @@ on:
     branches:
       - main
 
-permissions:
-  contents: write
-
 jobs:
   sync-to-hub:
     runs-on: ubuntu-latest
@@ -19,19 +16,13 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up git
-        run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "GitHub Actions"
-
-      - name: Pull latest changes from Hugging Face
+      - name: Push GitHub files to Hugging Face
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          git remote add space "https://adityap12:${HF_TOKEN}@huggingface.co/spaces/adityap12/OpenAI-chatbot-Query-app.git"
-          git fetch space main
-          git merge space/main --allow-unrelated-histories --strategy-option=theirs
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions"
 
-      - name: Push changes to GitHub
-        run: |
-          git push origin main
+          git remote add space "https://adityap12:${HF_TOKEN}@huggingface.co/spaces/adityap12/OpenAI-chatbot-Query-app.git"
+
+          git push space HEAD:main --force
